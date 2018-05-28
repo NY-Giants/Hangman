@@ -1,5 +1,12 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,12 +15,17 @@ import javax.swing.JPanel;
 
 public class Hangman implements KeyListener {
 	int ln = 10;
-
+	String x = JOptionPane.showInputDialog("Pick a Number");
+	int result = Integer.parseInt(x);
+	Random choosedaword = new Random();
+	String Displayunderscorestuff = "";
 	public static void main(String[] args) {
 		Hangman hm = new Hangman();
 	}
 
 	Hangman() {
+
+		Stack<String> Stackword = new Stack<String>();
 		JOptionPane.showInputDialog("Write in a number");
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -23,6 +35,32 @@ public class Hangman implements KeyListener {
 		panel.add(label1);
 		frame.setVisible(true);
 		frame.setSize(800, 500);
+		for (int i = 0; i < result; i++) {
+			try {
+				BufferedReader readwords = new BufferedReader(new FileReader("src//dictionary.txt"));
+				int randomwords = choosedaword.nextInt(2999);
+				for (int j = 0; i < randomwords; i++) {
+					readwords.readLine();
+				}
+				String line = readwords.readLine();
+				Stackword.push(line);
+				while (line != null) {
+					line = readwords.readLine();
+				}
+
+				readwords.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	String Choosedawordsboi = Stackword.pop();
+	for(int k = 0; k < Choosedawordsboi.length(); k++) {
+		Displayunderscorestuff+="_";
+	}
 	}
 
 	@Override
