@@ -19,22 +19,28 @@ public class Hangman implements KeyListener {
 	int result = Integer.parseInt(x);
 	Random choosedaword = new Random();
 	String Displayunderscorestuff = "";
+	String Choosedawords = "";
+	Stack<String> Stackword = new Stack<String>();
+	JLabel label1 = new JLabel("Lives:" + ln);
+	JLabel label2 = new JLabel();
+	JLabel label3 = new JLabel(Displayunderscorestuff);
+
 	public static void main(String[] args) {
 		Hangman hm = new Hangman();
 	}
 
 	Hangman() {
 
-		Stack<String> Stackword = new Stack<String>();
 		JOptionPane.showInputDialog("Write in a number");
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		JLabel label1 = new JLabel("Lives:" + ln);
-		JLabel label2 = new JLabel();
+
 		frame.add(panel);
 		panel.add(label1);
+		panel.add(label3);
 		frame.setVisible(true);
 		frame.setSize(800, 500);
+		frame.addKeyListener(this);
 		for (int i = 0; i < result; i++) {
 			try {
 				BufferedReader readwords = new BufferedReader(new FileReader("src//dictionary.txt"));
@@ -57,10 +63,12 @@ public class Hangman implements KeyListener {
 				e.printStackTrace();
 			}
 		}
-	String Choosedawordsboi = Stackword.pop();
-	for(int k = 0; k < Choosedawordsboi.length(); k++) {
-		Displayunderscorestuff+="_";
-	}
+		Choosedawords = Stackword.pop();
+		System.out.println(Choosedawords);
+		for (int k = 0; k < Choosedawords.length(); k++) {
+			Displayunderscorestuff += "_";
+		}
+		label3.setText(Displayunderscorestuff);
 	}
 
 	@Override
@@ -70,7 +78,19 @@ public class Hangman implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		String Empty = "";
+		System.out.println(Choosedawords);
+		for (int w = 0; w < Stackword.size(); w++) {
+			if (e.getKeyChar() == Choosedawords.charAt(w)) {
+				Empty += Choosedawords.charAt(w);
+				
+			} else {
+				Empty += Displayunderscorestuff.charAt(w);
+			}
+		}
+		Displayunderscorestuff = Empty;
+		label3.setText(Displayunderscorestuff);
+		
 	}
 
 	@Override
