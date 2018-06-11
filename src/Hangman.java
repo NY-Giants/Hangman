@@ -24,6 +24,9 @@ public class Hangman implements KeyListener {
 	JLabel label1 = new JLabel("Lives:" + ln);
 	JLabel label2 = new JLabel();
 	JLabel label3 = new JLabel(Displayunderscorestuff);
+	JFrame frame = new JFrame();
+	JPanel panel = new JPanel();
+	ArrayList<Character> letterstyped = new ArrayList<Character>();
 
 	public static void main(String[] args) {
 		Hangman hm = new Hangman();
@@ -32,8 +35,6 @@ public class Hangman implements KeyListener {
 	Hangman() {
 
 		JOptionPane.showInputDialog("Write in a number");
-		JFrame frame = new JFrame();
-		JPanel panel = new JPanel();
 
 		frame.add(panel);
 		panel.add(label1);
@@ -64,7 +65,6 @@ public class Hangman implements KeyListener {
 			}
 		}
 		Choosedawords = Stackword.pop();
-		System.out.println(Choosedawords);
 		for (int k = 0; k < Choosedawords.length(); k++) {
 			Displayunderscorestuff += "_";
 		}
@@ -78,18 +78,36 @@ public class Hangman implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+if(letterstyped.contains(e.getKeyChar())) {
+			
+}
+else {
+	letterstyped.add(e.getKeyChar());
+
 		String Empty = "";
-		System.out.println(Choosedawords);
-		for (int w = 0; w < Stackword.size(); w++) {
+		boolean truefalseword = false;
+		for (int w = 0; w < Choosedawords.length(); w++) {
 			if (e.getKeyChar() == Choosedawords.charAt(w)) {
 				Empty += Choosedawords.charAt(w);
-				
+				truefalseword = true;
+
 			} else {
 				Empty += Displayunderscorestuff.charAt(w);
 			}
+
+		}
+		if (truefalseword == false) {
+			ln--;
+			label1.setText("Lives: " + ln);
+		}
+		if (ln == 0) {
+			System.out.println("You solved " + " words. Nice Job!");
+			System.exit(0);
 		}
 		Displayunderscorestuff = Empty;
 		label3.setText(Displayunderscorestuff);
+}
 		
 	}
 
