@@ -33,9 +33,6 @@ public class Hangman implements KeyListener {
 	}
 
 	Hangman() {
-
-		JOptionPane.showInputDialog("Write in a number");
-
 		frame.add(panel);
 		panel.add(label1);
 		panel.add(label3);
@@ -69,6 +66,7 @@ public class Hangman implements KeyListener {
 			Displayunderscorestuff += "_";
 		}
 		label3.setText(Displayunderscorestuff);
+
 	}
 
 	@Override
@@ -78,37 +76,50 @@ public class Hangman implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-if(letterstyped.contains(e.getKeyChar())) {
-			
-}
-else {
-	letterstyped.add(e.getKeyChar());
 
-		String Empty = "";
-		boolean truefalseword = false;
-		for (int w = 0; w < Choosedawords.length(); w++) {
-			if (e.getKeyChar() == Choosedawords.charAt(w)) {
-				Empty += Choosedawords.charAt(w);
-				truefalseword = true;
+		if (letterstyped.contains(e.getKeyChar())) {
 
-			} else {
-				Empty += Displayunderscorestuff.charAt(w);
+		} else {
+			letterstyped.add(e.getKeyChar());
+
+			String Empty = "";
+			boolean truefalseword = false;
+			for (int w = 0; w < Choosedawords.length(); w++) {
+				if (e.getKeyChar() == Choosedawords.charAt(w)) {
+					Empty += Choosedawords.charAt(w);
+					truefalseword = true;
+
+				} else {
+					Empty += Displayunderscorestuff.charAt(w);
+				}
+
+			}
+			if (truefalseword == false) {
+				ln--;
+				label1.setText("Lives: " + ln);
+			}
+			if (ln == 0) {
+				System.out.println("You solved " + " words. Nice Job!");
+				System.exit(0);
 			}
 
+			Displayunderscorestuff = Empty;
+			label3.setText(Displayunderscorestuff);
 		}
-		if (truefalseword == false) {
-			ln--;
-			label1.setText("Lives: " + ln);
+		if (Displayunderscorestuff.equals(Choosedawords)) {
+			System.out.println("jfsehsbbghj");
+			Displayunderscorestuff = "";
+			if (Stackword.size() > 0) {
+				Choosedawords = Stackword.pop();
+			}
+
+			for (int k = 0; k < Choosedawords.length(); k++) {
+				Displayunderscorestuff += "_";
+			}
+			label3.setText(Displayunderscorestuff);
+
 		}
-		if (ln == 0) {
-			System.out.println("You solved " + " words. Nice Job!");
-			System.exit(0);
-		}
-		Displayunderscorestuff = Empty;
-		label3.setText(Displayunderscorestuff);
-}
-		
+		System.out.println(Choosedawords);
 	}
 
 	@Override
