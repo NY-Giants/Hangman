@@ -15,8 +15,7 @@ import javax.swing.JPanel;
 
 public class Hangman implements KeyListener {
 	int ln = 10;
-	String x = JOptionPane.showInputDialog("Pick a Number");
-	int result = Integer.parseInt(x);
+	int wordssolved = 0;
 	Random choosedaword = new Random();
 	String Displayunderscorestuff = "";
 	String Choosedawords = "";
@@ -33,6 +32,8 @@ public class Hangman implements KeyListener {
 	}
 
 	Hangman() {
+		String x = JOptionPane.showInputDialog("Pick a Number");
+		int result = Integer.parseInt(x);
 		frame.add(panel);
 		panel.add(label1);
 		panel.add(label3);
@@ -43,7 +44,7 @@ public class Hangman implements KeyListener {
 			try {
 				BufferedReader readwords = new BufferedReader(new FileReader("src//dictionary.txt"));
 				int randomwords = choosedaword.nextInt(2999);
-				for (int j = 0; i < randomwords; i++) {
+				for (int j = 0; j < randomwords; j++) {
 					readwords.readLine();
 				}
 				String line = readwords.readLine();
@@ -81,14 +82,13 @@ public class Hangman implements KeyListener {
 
 		} else {
 			letterstyped.add(e.getKeyChar());
-
 			String Empty = "";
 			boolean truefalseword = false;
 			for (int w = 0; w < Choosedawords.length(); w++) {
 				if (e.getKeyChar() == Choosedawords.charAt(w)) {
 					Empty += Choosedawords.charAt(w);
 					truefalseword = true;
-
+					letterstyped.clear();
 				} else {
 					Empty += Displayunderscorestuff.charAt(w);
 				}
@@ -99,7 +99,7 @@ public class Hangman implements KeyListener {
 				label1.setText("Lives: " + ln);
 			}
 			if (ln == 0) {
-				System.out.println("You solved " + " words. Nice Job!");
+				System.out.println("You solved " + wordssolved + " words. Nice Job!");
 				System.exit(0);
 			}
 
@@ -107,19 +107,26 @@ public class Hangman implements KeyListener {
 			label3.setText(Displayunderscorestuff);
 		}
 		if (Displayunderscorestuff.equals(Choosedawords)) {
-			System.out.println("jfsehsbbghj");
 			Displayunderscorestuff = "";
 			if (Stackword.size() > 0) {
 				Choosedawords = Stackword.pop();
 			}
+			if (Stackword.isEmpty()) {
+				JOptionPane.showInputDialog("You solved all the words!" + " Click below to exit the program");
+				System.exit(0);
 
+			}
+
+			wordssolved++;
 			for (int k = 0; k < Choosedawords.length(); k++) {
 				Displayunderscorestuff += "_";
+				
 			}
 			label3.setText(Displayunderscorestuff);
 
 		}
 		System.out.println(Choosedawords);
+
 	}
 
 	@Override
