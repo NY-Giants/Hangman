@@ -40,7 +40,7 @@ public class Hangman implements KeyListener {
 		frame.setVisible(true);
 		frame.setSize(800, 500);
 		frame.addKeyListener(this);
-		for (int i = 0; i < result; i++) {
+		for (int i = 0; i <= result; i++) {
 			try {
 				BufferedReader readwords = new BufferedReader(new FileReader("src//dictionary.txt"));
 				int randomwords = choosedaword.nextInt(2999);
